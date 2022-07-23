@@ -106,7 +106,6 @@
 #define MC34X9_REG_ZOUT_MSB         (0x12)
 #define MC34X9_REG_STATUS           (0x13)
 #define MC34X9_REG_INTR_STAT        (0x14)
-#define MC34X9_REG_PROD             (0x18)
 #define MC34X9_REG_RANGE_C          (0x20)
 #define MC34X9_REG_XOFFL            (0x21)
 #define MC34X9_REG_XOFFH            (0x22)
@@ -137,10 +136,7 @@
 
 #define MC34X9_NULL_ADDR            (0)
 
-#define MC34X9_CHIP_ID (0xA4)
-
-#define s_bCfgFTThr 200
-#define s_bCfgFTDebounce 50
+#define MC34X9_CHIP_ID              (0xA4)
 
 struct MC34X9_acc_t
 {
@@ -246,7 +242,7 @@ class MC34X9 {
     uint8_t readRegister8(uint8_t reg);
     void writeRegister8(uint8_t reg, uint8_t value);
     // Setup and begin measurements
-    bool start(bool bSpi, uint8_t chip_select);
+    bool begin(bool bSpi, uint8_t chip_select);
     // Start measurement
     void wake();
     // End measurement
@@ -323,7 +319,7 @@ typedef enum
 {
   MC34X9_TILT35_1p6           = 0b000,
   MC34X9_TILT35_1p8           = 0b001,
-  MC34X9_TILT35_2p0           = 0b010,  
+  MC34X9_TILT35_2p0           = 0b010,
   MC34X9_TILT35_2p2           = 0b011,
   MC34X9_TILT35_2p4           = 0b100,
   MC34X9_TILT35_2p6           = 0b101,

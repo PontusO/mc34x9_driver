@@ -45,7 +45,7 @@ void MC34X9::writeRegister8(uint8_t reg, uint8_t value) {
 }
 
 //Initialize the MC34X9 sensor and set as the default configuration
-bool MC34X9::start(bool bSpi, uint8_t chip_select)
+bool MC34X9::begin(bool bSpi, uint8_t chip_select)
 {
   /** 0 = SPI, 1 = I2C */
   M_bSpi = bSpi;
@@ -67,6 +67,7 @@ bool MC34X9::start(bool bSpi, uint8_t chip_select)
   reset();
   SetMode(MC34X9_MODE_STANDBY);
 
+#if 0
   /* Check I2C connection */
   uint8_t id = readRegister8(MC34X9_REG_PROD);
   if (id != MC34X9_CHIP_ID)
@@ -77,6 +78,7 @@ bool MC34X9::start(bool bSpi, uint8_t chip_select)
     mcube_printf_number(id);
     return false;
   }
+#endif
 
   //Range: 8g
   SetRangeCtrl(MC34X9_CFG_RANGE_DEFAULT);
@@ -421,8 +423,12 @@ uint8_t _readRegister8(bool bSpi, uint8_t chip_select, uint8_t reg)
     digitalWrite(chip_select, HIGH);
   } else { //Reads an 8-bit register with the SPI port.
     /** I2C read function */
-    Wire.requestFrom(chip_select, 1, reg, 1, true);
+    Wire.beginTransmission(chip_select);
+    Wire.write(reg);
+    Wire.endTransmission(false);
+    Wire.requestFrom(chip_select, 1, true);
     value = Wire.read();
+    Wire.endTransmission();
   }
 
   return value;
