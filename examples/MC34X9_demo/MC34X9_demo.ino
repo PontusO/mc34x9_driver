@@ -67,7 +67,7 @@ void setup()
   }
 
   // Init MC34X9 Object
-  if (!MC34X9_acc.start(bSpi, chipSelect)) {
+  if (!MC34X9_acc.begin(bSpi, chipSelect)) {
     // Invalid chip ID
     // Block here
     while (true);
